@@ -32,7 +32,7 @@ jobs:
 
       - name: Run tests
         run: |
-          python test_app.py
+          pytest tests/test_app.py
 
       - name: test step
         run: |
