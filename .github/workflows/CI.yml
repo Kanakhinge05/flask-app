@@ -20,7 +20,14 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.9'
-          cache: 'pip' # Automatically caches dependencies for faster workflows
+
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Build Docker Image
+        run: |
+          docker build -t flask-app .
 
   test:
     needs: build
@@ -30,9 +37,9 @@ jobs:
         run: |
           echo "Running tests"
 
-      - name: Run tests
-        run: |
-          pytest tests/test_app.py
+      - name: Run Tests
+        run: | 
+          pytest
 
       - name: test step
         run: |
