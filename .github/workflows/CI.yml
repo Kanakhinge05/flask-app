@@ -32,7 +32,7 @@ jobs:
           docker run -d --name flask-app-container -p 5000:5000 flask-app
           sleep 5
           curl http://localhost:5000/health
-          
+
   test:
     needs: build
     runs-on: ubuntu-latest
@@ -55,7 +55,7 @@ jobs:
 
       - name: Run Tests
         run: | 
-          pytest
+          PYTHONPATH=. pytest
 
       - name: test step
         run: |
