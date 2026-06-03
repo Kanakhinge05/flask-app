@@ -12,27 +12,43 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         
-      - name: Build step
-        run: |
-          echo "Building application"
+
       
-      - name: Set up Python 3.9
+      - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
-          python-version: '3.9'
+          python-version: '3.11'
 
-      - name: Install Dependencies
+      - name: Build step
         run: |
-          pip install -r requirements.txt
+          echo "Building image"
 
       - name: Build Docker Image
         run: |
           docker build -t flask-app .
 
+      - name: Run Docker Container
+        run: |
+          docker run -d --name flask-app-container -p 5000:5000 flask-app
+          sleep 5
+          curl http://localhost:5000/health
+          
   test:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
+
       - name: Test step
         run: |
           echo "Running tests"
